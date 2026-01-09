@@ -1,0 +1,368 @@
+
+body {
+    background-color: #fff;
+    font-family: "Muli", "Verdana", sans-serif;
+    color: #000;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #aaa;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.home-text {
+    line-height: 8px !important;
+}
+
+.hero-body {
+    padding-top: 20px !important;
+}
+
+.bs-copyright {
+    font-weight: bold;
+    padding:10px;
+}
+
+.bs-footer-spacer {
+    padding:20px;
+}
+
+.bs-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #c4c4c4;
+    color: white;
+    text-align: center;
+}
+
+.is-selected {
+    color: white !important;
+}
+
+.bs-bordered {
+    border: 1px solid red;
+    padding: 3px;
+}
+
+.bs-arena-right {
+    margin: 3px 3px 3px 0;
+}
+
+.bs-arena-left {
+    margin: 3px 0 3px 3px;
+}
+
+.bs-no-data {
+    color: #c40000 !important;
+    font-weight: bold;
+}
+
+.bs-errors-title, .bs-msgs-title {
+    color: #a2a2a2;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.bs-errors {
+    color: #c40000 !important;
+    font-weight: bold;
+}
+
+.bs-status {
+    color: #c40000 !important;
+    font-weight: bold;
+}
+
+.bs-play-status {
+    background-color: #c40000 !important;
+    color: #fff !important;
+    font-weight: bold;
+}
+
+.bs-form-table {
+    text-align: left;
+    width: 100%;
+}
+
+.bs-listbox {
+    text-align: left;
+    min-width: 200px;
+}
+
+.bs-section-title {
+    color: #000 !important;
+    font-weight: bold;
+}
+
+.bs-section-help {
+    color: #00f !important;
+    font-weight: normal;
+}
+
+.bs-msgs, .bs-ready-to-play {
+    color: #c40000 !important;
+    font-weight: bold;
+}
+
+.bs-ready-to-play {
+    margin-right: 20px;
+}
+
+.bs-msgs-link {
+    color: #0000c4 !important;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.bs-error-link {
+    color: #0000c4 !important;
+    font-weight: bold;
+    margin: 0;
+}
+
+.bs-add-link, .bs-show-deleted, .bs-sound-checkbox {
+    color: #0000c4 !important;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 0 10px 10px 0;
+}
+
+.bs-show-deleted, .bs-sound-checkbox {
+    font-size: 0.8em;
+    border: 0px solid grey;
+}
+
+.bs-sound {
+    margin-right: 2px;
+}
+
+.bs-notification {
+    width: 80%;
+    text-align: left;
+    font-weight: bold;
+    color: #c40000;
+}
+.bs-text {
+    font-weight: bold;
+    color: #c40000;
+}
+.bs-plot-table, .bs-progress-table {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.7em;
+    border-bottom: 3px solid #a2a2a2;
+    border-right: 3px solid #a2a2a2;
+}
+
+.bs-progress-table {
+    width: 100%;
+}
+
+.bs-progress-header {
+    background-color: #a2a2a2 !important;
+    color: #fff !important;
+}
+
+.bs-progress-table th, .bs-progress-table td {
+    padding: 2px 2px 2px 2px;
+}
+
+.bs-progress-entry {
+    font-size: 1.0em;
+}
+
+.bs-scrollable {
+    height: 100%;
+    width: 100%;
+    max-height: 360px;
+    overflow-y: auto;
+    padding: 0;
+    border: 0px solid red;
+}
+
+.bs-progress-container {
+    border-top: 1px solid #a2a2a2;
+    border-left: 1px solid #a2a2a2;
+    border-bottom: 3px solid #a2a2a2;
+    border-right: 3px solid #a2a2a2;
+}
+
+.bs-plot-cell-header {
+    background-color: #a2a2a2 !important;
+    color: #fff !important;
+}
+
+.bs-grid-table {
+    border-bottom: 3px solid #a2a2a2;
+    border-right: 3px solid #a2a2a2;
+}
+
+.bs-table-title, .bs-grid-title {
+    background-color: #d4d4d4 !important;
+    color: #000 !important;
+    font-weight: bold;
+}
+
+.bs-messages-title {
+    color: #000 !important;
+    font-weight: bold;
+}
+
+/* NB Keep the cell and corresponding key classes identical */
+.bs-pos-cell-blank {
+    background-color: #fff !important;
+    color: #000 !important;
+}
+.bs-pos-key-blank {
+    background-color: #fff !important;
+    color: #000 !important;
+}
+.bs-pos-cell-available {
+    background-color: #c400c4 !important;
+    color: #fff !important;
+}
+.bs-pos-key-available {
+    background-color: #c400c4 !important;
+    color: #fff !important;
+}
+.bs-pos-cell-started {
+    background-color: #00c4c4 !important;
+    color: #fff !important;
+}
+.bs-pos-key-started {
+    background-color: #00c4c4 !important;
+    color: #fff !important;
+}
+.bs-pos-cell-plotted {
+    background-color: #0000c4 !important;
+    color: #fff !important;
+}
+.bs-pos-key-plotted {
+    background-color: #0000c4 !important;
+    color: #fff !important;
+}
+.bs-pos-cell-strike {
+    background-color: #fc0 !important;
+    color: #fff !important;
+}
+.bs-pos-key-strike {
+    background-color: #fc0 !important;
+    color: #fff !important;
+}
+.bs-pos-cell-hit {
+    background-color: #f00 !important;
+    color: #fff !important;
+}
+.bs-pos-key-hit {
+    background-color: #f00 !important;
+    color: #fff !important;
+}
+.bs-pos-cell-destroyed {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+.bs-pos-key-destroyed {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+.bs-test_button {
+    margin: 0 !important;
+    padding: 2px !important;
+    font-size: 1.0em;
+    vertical-align: middle;
+}
+.bs-random_button {
+    margin: 0 auto 10px auto;
+}
+.bs-games-button {
+    margin-right: 25px;
+    font-weight: bold;
+    color: #0000c4;
+}
+.bs-games-button:hover {
+    color: #00c400;
+}
+
+.bs-admin-button {
+    margin-right: 25px;
+    font-weight: bold;
+    color: #0000c4;
+}
+.bs-admin-button:hover {
+    color: #00c400;
+}
+
+.bs-common-block {
+    padding: 10px 50px 0px 50px;
+    margin: 0;
+}
+
+.bs-leaderboard-first {
+    background-color: #d4af37 !important;
+    opacity: 0.7;
+}
+
+.bs-leaderboard-second {
+    background-color: #c0c0c0 !important;
+    opacity: 0.7;
+}
+
+.bs-leaderboard-third {
+    background-color: #cd7f32 !important;
+    opacity: 0.7;
+}
+
+.bs-cursor-default {
+    cursor: default;
+}
+
+.bs-cursor-pointer {
+    cursor: pointer;
+}
+
+.bs-cursor-crosshair {
+    cursor: crosshair;
+}
+
+/* Cookie processing classes */
+.bs-cookie-warning {
+    position: fixed;
+    bottom: -100px; /* hidden initially */
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    transition: bottom 0.5s ease; /* smooth slide-in effect */
+    z-index: 1000;
+}
+.bs-cookie-warning.bs-show {
+    bottom: 0; /* show when class is added */
+}
+.bs-cookie-warning button {
+    background-color: #525252;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.bs-show {
+    display: block !important;
+}
+
+.bs-winner {
+    background-color: #c40000 !important;
+    color: #fff !important;
+    font-weight: bold;
+}
