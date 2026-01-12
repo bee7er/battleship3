@@ -88,7 +88,7 @@ use App\Game;
                         @endforeach
                     @else
                         <tr>
-                            <td class="bs-no-data" colspan="99">You have not yet created any games</td>
+                            <td class="bs-no-data" colspan="99">There are no games to display</td>
                         </tr>
                     @endif
                     </tbody>

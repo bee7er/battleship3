@@ -114,13 +114,13 @@ use App\Game;
 
                 <hr />
                 <div>
-                    <button id="startButtonId" class="button bs-random_button" onclick="return startPlottingMoves();">Start Replay</button>
+                    <button id="startButtonId" class="button is-link bs-random_button" onclick="return startPlottingMoves();">Start Replay</button>
                 </div>
                 <div>
-                    <button id="resumeButtonId" class="button bs-random_button" disabled="disabled" onclick="return resumePlottingMoves();">Resume Replay</button>
+                    <button id="resumeButtonId" class="button is-link bs-random_button" disabled="disabled" onclick="return resumePlottingMoves();">Resume Replay</button>
                 </div>
                 <div>
-                    <button id="stopButtonId" class="button bs-random_button" disabled="disabled" onclick="return stopPlottingMoves();">Stop Replay</button>
+                    <button id="stopButtonId" class="button is-link bs-random_button" disabled="disabled" onclick="return stopPlottingMoves();">Stop Replay</button>
                 </div>
 
                 @include('partials.sound')

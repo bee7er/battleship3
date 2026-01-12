@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.4.5, for macos14.7 (x86_64)
 --
--- Host: localhost    Database: battle2_db
+-- Host: localhost    Database: battle3_db
 -- ------------------------------------------------------
 -- Server version	8.4.5
 
@@ -37,7 +37,7 @@ CREATE TABLE `fleet_templates` (
 
 LOCK TABLES `fleet_templates` WRITE;
 /*!40000 ALTER TABLE `fleet_templates` DISABLE KEYS */;
-INSERT INTO `fleet_templates` VALUES (1,1,'2025-12-18 11:52:36','2025-12-18 11:52:36'),(2,2,'2025-12-18 11:52:36','2025-12-18 11:52:36'),(3,3,'2025-12-18 11:52:36','2025-12-18 11:52:36'),(4,4,'2025-12-18 11:52:36','2025-12-18 11:52:36'),(5,5,'2025-12-18 11:52:36','2025-12-18 11:52:36');
+INSERT INTO `fleet_templates` VALUES (1,1,'2026-01-12 10:37:09','2026-01-12 10:37:09'),(2,2,'2026-01-12 10:37:09','2026-01-12 10:37:09'),(3,3,'2026-01-12 10:37:09','2026-01-12 10:37:09'),(4,4,'2026-01-12 10:37:09','2026-01-12 10:37:09'),(5,5,'2026-01-12 10:37:09','2026-01-12 10:37:09');
 /*!40000 ALTER TABLE `fleet_templates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +58,7 @@ CREATE TABLE `fleet_vessel_locations` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +67,7 @@ CREATE TABLE `fleet_vessel_locations` (
 
 LOCK TABLES `fleet_vessel_locations` WRITE;
 /*!40000 ALTER TABLE `fleet_vessel_locations` DISABLE KEYS */;
+INSERT INTO `fleet_vessel_locations` VALUES (1,1,0,1,6,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(2,1,0,1,7,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(3,1,0,1,8,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(4,1,0,1,9,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(5,1,0,1,10,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(6,2,0,8,7,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(7,2,0,8,8,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(8,2,0,8,9,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(9,2,0,8,10,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(10,3,0,10,4,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(11,3,0,10,5,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(12,3,0,10,6,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(13,4,0,5,9,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(14,4,0,6,9,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(15,4,0,7,9,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(16,5,0,3,1,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(17,5,0,4,1,'normal','2026-01-12 10:37:40','2026-01-12 10:37:40'),(18,6,1,2,4,'destroyed','2026-01-12 10:38:10','2026-01-12 10:40:34'),(19,6,2,2,5,'destroyed','2026-01-12 10:38:10','2026-01-12 10:40:34'),(20,6,3,2,6,'destroyed','2026-01-12 10:38:10','2026-01-12 10:40:34'),(21,6,4,2,7,'destroyed','2026-01-12 10:38:10','2026-01-12 10:40:34'),(22,6,5,2,8,'destroyed','2026-01-12 10:38:10','2026-01-12 10:40:40'),(23,7,16,3,10,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:29'),(24,7,17,4,10,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:29'),(25,7,18,5,10,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:29'),(26,7,19,6,10,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:29'),(27,8,12,6,6,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:14'),(28,8,13,6,7,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:14'),(29,8,14,6,8,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:15'),(30,9,9,6,3,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:08'),(31,9,10,6,4,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:08'),(32,9,11,6,5,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:09'),(33,10,8,6,2,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:16'),(34,10,15,7,2,'destroyed','2026-01-12 10:38:10','2026-01-12 10:41:21');
 /*!40000 ALTER TABLE `fleet_vessel_locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +86,7 @@ CREATE TABLE `fleet_vessels` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,6 +95,7 @@ CREATE TABLE `fleet_vessels` (
 
 LOCK TABLES `fleet_vessels` WRITE;
 /*!40000 ALTER TABLE `fleet_vessels` DISABLE KEYS */;
+INSERT INTO `fleet_vessels` VALUES (1,1,1,'plotted','2026-01-12 10:37:36','2026-01-12 10:37:40'),(2,1,2,'plotted','2026-01-12 10:37:36','2026-01-12 10:37:40'),(3,1,3,'plotted','2026-01-12 10:37:36','2026-01-12 10:37:40'),(4,1,4,'plotted','2026-01-12 10:37:36','2026-01-12 10:37:40'),(5,1,5,'plotted','2026-01-12 10:37:36','2026-01-12 10:37:40'),(6,2,1,'destroyed','2026-01-12 10:38:06','2026-01-12 10:40:34'),(7,2,2,'destroyed','2026-01-12 10:38:06','2026-01-12 10:41:29'),(8,2,3,'destroyed','2026-01-12 10:38:06','2026-01-12 10:41:14'),(9,2,4,'destroyed','2026-01-12 10:38:06','2026-01-12 10:41:08'),(10,2,5,'destroyed','2026-01-12 10:38:06','2026-01-12 10:41:16');
 /*!40000 ALTER TABLE `fleet_vessels` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +113,7 @@ CREATE TABLE `fleets` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,6 +122,7 @@ CREATE TABLE `fleets` (
 
 LOCK TABLES `fleets` WRITE;
 /*!40000 ALTER TABLE `fleets` DISABLE KEYS */;
+INSERT INTO `fleets` VALUES (1,2,1,'2026-01-12 10:37:36','2026-01-12 10:37:36'),(2,3,1,'2026-01-12 10:38:06','2026-01-12 10:38:06');
 /*!40000 ALTER TABLE `fleets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,7 +149,7 @@ CREATE TABLE `games` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `games_name_unique` (`name`),
   UNIQUE KEY `games_player_two_link_token_unique` (`player_two_link_token`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,6 +158,7 @@ CREATE TABLE `games` (
 
 LOCK TABLES `games` WRITE;
 /*!40000 ALTER TABLE `games` DISABLE KEYS */;
+INSERT INTO `games` VALUES (1,'1st naval battle','deleted',2,3,'fT7nk4C5Z41VyEsh',2,'2026-01-12 10:40:27','2026-01-12 10:41:29','2026-01-12 10:44:02','2026-01-12 10:37:36','2026-01-12 10:44:02');
 /*!40000 ALTER TABLE `games` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,7 +187,7 @@ CREATE TABLE `message_texts` (
 
 LOCK TABLES `message_texts` WRITE;
 /*!40000 ALTER TABLE `message_texts` DISABLE KEYS */;
-INSERT INTO `message_texts` VALUES (1,'Invite owner','Hi %s, a game has been created for you by the system called \'%s\' against opponent \'%s\'. *system_admin','specific','ready','2025-12-18 11:52:36','2025-12-18 11:52:36'),(2,'Invite player','Hi %s, will you play \'%s\' with me? %s','specific','ready','2025-12-18 11:52:36','2025-12-18 11:52:36'),(3,'Accept invitation','Hi %s, I will love playing \'%s\' with you. %s','specific','ready','2025-12-18 11:52:36','2025-12-18 11:52:36'),(4,'Game ready','Hi %s and %s, I\'m happy to say that \'%s\' is ready to play. *system_admin','specific','ready','2025-12-18 11:52:36','2025-12-18 11:52:36'),(5,'Waiting','Hi %s, %s is waiting for you to finish plotting your fleet in the \'%s\' game. *system_admin','specific','ready','2025-12-18 11:52:36','2025-12-18 11:52:36'),(6,'Winner','Hi %s, you won the \'%s\' game.  Well done. %s','specific','ready','2025-12-18 11:52:36','2025-12-18 11:52:36'),(7,'Loser','Hi %s, sadly you lost the \'%s\' game.  Try again later. %s','specific','ready','2025-12-18 11:52:36','2025-12-18 11:52:36'),(8,'Player Two Error','Hi %s, sorry you cannot play \'%s\' against yourself. %s','specific','ready','2025-12-18 11:52:36','2025-12-18 11:52:36'),(9,'Welcome to Version 2','Hi %s, welcome to version two of my battleships game. *system_admin','broadcast','ready','2025-12-18 11:52:36','2025-12-18 11:52:36');
+INSERT INTO `message_texts` VALUES (1,'Invite owner','Hi %s, a game has been created for you by the system called \'%s\' against opponent \'%s\'. *system_admin','specific','ready','2026-01-12 10:37:09','2026-01-12 10:37:09'),(2,'Invite player','Hi %s, will you play \'%s\' with me? %s','specific','ready','2026-01-12 10:37:09','2026-01-12 10:37:09'),(3,'Accept invitation','Hi %s, I will love playing \'%s\' with you. %s','specific','ready','2026-01-12 10:37:09','2026-01-12 10:37:09'),(4,'Game ready','Hi %s and %s, I\'m happy to say that \'%s\' is ready to play. *system_admin','specific','ready','2026-01-12 10:37:09','2026-01-12 10:37:09'),(5,'Waiting','Hi %s, %s is waiting for you to finish plotting your fleet in the \'%s\' game. *system_admin','specific','ready','2026-01-12 10:37:09','2026-01-12 10:37:09'),(6,'Winner','Hi %s, you won the \'%s\' game.  Well done. %s','specific','ready','2026-01-12 10:37:09','2026-01-12 10:37:09'),(7,'Loser','Hi %s, sadly you lost the \'%s\' game.  Try again later. %s','specific','ready','2026-01-12 10:37:09','2026-01-12 10:37:09'),(8,'Player Two Error','Hi %s, sorry you cannot play \'%s\' against yourself. %s','specific','ready','2026-01-12 10:37:09','2026-01-12 10:37:09'),(9,'Welcome to Version 2','Hi %s, welcome to version two of my battleships game. System Admin','broadcast','sent','2026-01-12 10:37:09','2026-01-12 10:37:27');
 /*!40000 ALTER TABLE `message_texts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,7 +208,7 @@ CREATE TABLE `messages` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,6 +217,7 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+INSERT INTO `messages` VALUES (1,'Hi Brian, welcome to version two of my battleships game. System Admin','open',1,2,NULL,'2026-01-12 10:37:27','2026-01-12 10:37:27'),(2,'Hi Brian, I will love playing \'1st naval battle\' with you. steve','open',3,2,NULL,'2026-01-12 10:38:06','2026-01-12 10:38:06'),(3,'Hi Brian and steve, I\'m happy to say that \'1st naval battle\' is ready to play. System Admin','open',1,2,NULL,'2026-01-12 10:38:10','2026-01-12 10:38:10'),(4,'Hi steve and Brian, I\'m happy to say that \'1st naval battle\' is ready to play. System Admin','open',1,3,NULL,'2026-01-12 10:38:10','2026-01-12 10:38:10'),(5,'Hi steve, sadly you lost the \'1st naval battle\' game.  Try again later. System Admin','open',1,3,NULL,'2026-01-12 10:41:29','2026-01-12 10:41:29'),(6,'Hi Brian, you won the \'1st naval battle\' game.  Well done. System Admin','open',1,2,NULL,'2026-01-12 10:41:29','2026-01-12 10:41:29');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,7 +261,7 @@ CREATE TABLE `moves` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -265,6 +270,7 @@ CREATE TABLE `moves` (
 
 LOCK TABLES `moves` WRITE;
 /*!40000 ALTER TABLE `moves` DISABLE KEYS */;
+INSERT INTO `moves` VALUES (1,1,2,2,4,1,'2026-01-12 10:40:27','2026-01-12 10:40:27'),(2,1,2,2,5,1,'2026-01-12 10:40:29','2026-01-12 10:40:29'),(3,1,2,2,6,1,'2026-01-12 10:40:30','2026-01-12 10:40:30'),(4,1,2,2,7,1,'2026-01-12 10:40:31','2026-01-12 10:40:31'),(5,1,2,2,8,1,'2026-01-12 10:40:34','2026-01-12 10:40:34'),(6,1,2,3,1,0,'2026-01-12 10:40:40','2026-01-12 10:40:40'),(7,1,3,2,2,0,'2026-01-12 10:40:51','2026-01-12 10:40:51'),(8,1,2,6,2,1,'2026-01-12 10:40:59','2026-01-12 10:40:59'),(9,1,2,6,3,1,'2026-01-12 10:41:01','2026-01-12 10:41:01'),(10,1,2,6,4,1,'2026-01-12 10:41:05','2026-01-12 10:41:05'),(11,1,2,6,5,1,'2026-01-12 10:41:08','2026-01-12 10:41:08'),(12,1,2,6,6,1,'2026-01-12 10:41:11','2026-01-12 10:41:11'),(13,1,2,6,7,1,'2026-01-12 10:41:12','2026-01-12 10:41:12'),(14,1,2,6,8,1,'2026-01-12 10:41:14','2026-01-12 10:41:14'),(15,1,2,7,2,1,'2026-01-12 10:41:16','2026-01-12 10:41:16'),(16,1,2,3,10,1,'2026-01-12 10:41:23','2026-01-12 10:41:23'),(17,1,2,4,10,1,'2026-01-12 10:41:25','2026-01-12 10:41:25'),(18,1,2,5,10,1,'2026-01-12 10:41:27','2026-01-12 10:41:27'),(19,1,2,6,10,1,'2026-01-12 10:41:29','2026-01-12 10:41:29');
 /*!40000 ALTER TABLE `moves` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -316,7 +322,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_name_unique` (`name`),
   UNIQUE KEY `users_user_token_unique` (`user_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -325,7 +331,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'System Admin','$2y$10$QXo0osbCKtl7KMKWwpZEz.DlZgCYVuVI/WxmUuVDdeImaU/3/8PY.','Conflict with double room number','k9ELpvlDxM5OrSEn',1,NULL,0,0,0,'2025-12-18 11:52:36','2025-12-18 11:52:36'),(2,'Brian','$2y$10$KeihH6Jyxjaq7ATtuoOMoOQ/ArlS7PCx3/KxPLzwB7uqgkn2X3mb6','Conflict with single room number','o4z7g2Ec8XuAYX4N',1,NULL,0,0,0,'2025-12-18 11:52:36','2025-12-18 11:52:36');
+INSERT INTO `users` VALUES (1,'System Admin','$2y$10$nZbQZUcxi3EGuIm8uLS8N.p8It0AMGaGRJewkbl3ZNebaWzeCT5mq','Conflict with double room number','p9PJQzCQ2L0BvRoK',1,NULL,0,0,0,'2026-01-12 10:37:09','2026-01-12 10:37:09'),(2,'Brian','$2y$10$hcgFWb5sbYcEbB6v2yBoAu3DOmMzxHM/jWyRqyyjkgyL7ZrN6Ezpi','Conflict with single room number','O3h8Ny8h7FhEGTCU',1,'M4UKBYqeNZxuQhvQpNcmVUEmZVB0cryfWrEIB6o2o0wwBWETUfQURhy1XFA9',1,5,27,'2026-01-12 10:37:09','2026-01-12 10:41:29'),(3,'steve','$2y$10$gujCqzV.BuV6/tKrAydszOlPVhpMsu5jo.fDu/EjumM5coUgx6mry','battle101','QgXJL4uPssapdTYl',0,'YCAi6aHk6DrxQZVaCTLl2i0PFg8JSCrj9W2L3hR9E62kPJ5mRVjRrCR1YflX',1,0,0,'2026-01-12 10:38:02','2026-01-12 10:43:53');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -353,7 +359,7 @@ CREATE TABLE `vessels` (
 
 LOCK TABLES `vessels` WRITE;
 /*!40000 ALTER TABLE `vessels` DISABLE KEYS */;
-INSERT INTO `vessels` VALUES (1,'aircraft-carrier',5,7,'2025-12-18 11:52:36','2025-12-18 11:52:36'),(2,'battleship',4,6,'2025-12-18 11:52:36','2025-12-18 11:52:36'),(3,'cruiser',3,5,'2025-12-18 11:52:36','2025-12-18 11:52:36'),(4,'submarine',3,5,'2025-12-18 11:52:36','2025-12-18 11:52:36'),(5,'destroyer',2,4,'2025-12-18 11:52:36','2025-12-18 11:52:36');
+INSERT INTO `vessels` VALUES (1,'aircraft-carrier',5,7,'2026-01-12 10:37:09','2026-01-12 10:37:09'),(2,'battleship',4,6,'2026-01-12 10:37:09','2026-01-12 10:37:09'),(3,'cruiser',3,5,'2026-01-12 10:37:09','2026-01-12 10:37:09'),(4,'submarine',3,5,'2026-01-12 10:37:09','2026-01-12 10:37:09'),(5,'destroyer',2,4,'2026-01-12 10:37:09','2026-01-12 10:37:09');
 /*!40000 ALTER TABLE `vessels` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -366,4 +372,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-18 11:52:40
+-- Dump completed on 2026-01-12 10:48:03
