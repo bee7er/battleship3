@@ -41,14 +41,16 @@ use App\Game;
                             <td class="cell bs-section-title">
                                 You:
                             </td>
-                            <td id="myGoId" class="cell">
-                                {{$myUser->name}}
+                            <td id="myCellId" class="cell">
+                                <img id="myImageId" class="bs-triangle" src="{{env("BASE_URL", "/")}}images/triangle.png" width="18" />
+                                <span id="myGoId" class="">{{$myUser->name}}</span>
                             </td>
                             <td class="cell bs-section-title">
                                 Them:
                             </td>
-                            <td id="theirGoId" class="cell">
-                                {{$theirUser->name}}
+                            <td id="theirCellId" class="cell">
+                                <img id="theirImageId" class="bs-triangle" src="{{env("BASE_URL", "/")}}images/triangle.png" width="18" />
+                                <span id="theirGoId" class="">{{$theirUser->name}}</span>
                             </td>
                         </tr>
                     </tbody>
@@ -308,18 +310,28 @@ use App\Game;
         {
             if (gameOver) {
                 if (winnerId == myUserId) {
-                    $('#myGoId').addClass('bs-play-status').html(myName + " WINNER ;o)");
-                    $('#theirGoId').addClass('bs-play-status').html(theirName + " LOSER :o(");
+                    playGameSound('success');
+                    $('#myCellId').addClass('bs-play-status');
+                    $('#myGoId').addClass('bs-play-status').html(myName + " WINNER");
+                    $('#theirCellId').removeClass('bs-play-status');
+                    $('#theirGoId').removeClass('bs-play-status').html(theirName);
                 } else {
-                    $('#myGoId').addClass('bs-play-status').html(myName + " LOSER :o(");
-                    $('#theirGoId').addClass('bs-play-status').html(theirName + " WINNER ;o)");
+                    playGameSound('failure');
+                    $('#myCellId').addClass('bs-play-status');
+                    $('#myGoId').addClass('bs-play-status').html(myName + " LOSER");
+                    $('#theirCellId').removeClass('bs-play-status');
+                    $('#theirGoId').removeClass('bs-play-status').html(theirName);
                 }
             } else {
                 if (myGo) {
+                    $('#myCellId').addClass('bs-play-status');
                     $('#myGoId').addClass('bs-play-status').html(myName);
+                    $('#theirCellId').removeClass('bs-play-status');
                     $('#theirGoId').removeClass('bs-play-status').html(theirName);
                 } else {
+                    $('#theirCellId').addClass('bs-play-status');
                     $('#theirGoId').addClass('bs-play-status').html(theirName);
+                    $('#myCellId').removeClass('bs-play-status');
                     $('#myGoId').removeClass('bs-play-status').html(myName);
                 }
             }

@@ -366,3 +366,7 @@ hr {
     color: #fff !important;
     font-weight: bold;
 }
+
+.bs-triangle {
+    margin-top: 5px;
+}

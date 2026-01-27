@@ -57,7 +57,7 @@ use App\User;
                         </tr>
                         <tr class="">
                             <td class="cell bs-section-title">
-                                Repeat password (confirm or leave blank):
+                                Repeat password (leave blank or confirm):
                             </td>
                             <td class="cell">
                                 <input type="text" id="repeat" name="repeat" value="" />
@@ -98,8 +98,8 @@ use App\User;
 
                         <tr class="">
                             <td class="cell" colspan="2">
-                                <input class="button is-pulled-right mr-6" type="submit" value="Submit input" onclick="return submitRequest();" />
-                                <input class="button is-pulled-right mr-6" type="submit" value="Cancel" onclick="return cancelRequest();" />
+                                <input class="button is-link is-pulled-right mr-6" type="submit" value="Submit input" onclick="return submitRequest();" />
+                                <input class="button is-link is-light is-pulled-right mr-6" type="submit" value="Cancel" onclick="return cancelRequest();" />
                             </td>
                         </tr>
                     </tbody>

@@ -49,7 +49,7 @@ use App\Game;
                     @if (isset($games) && $games->count() > 0)
                         @foreach($games as $game)
                             <tr>
-                                <td><a class="bs-games-button" href="javascript: gotoEdit({{$game->id}})">{{$game->name}}</a></td>
+                                <td><a class="bs-games-button" href="javascript: gotoEdit({{$game->id}})">{{$game->name ? $game->name: '-'}}</a></td>
                                 <td class="{{($game->player_one_id == $game->winner_id ? 'bs-winner': '')}}">{{$game->player_one_name}}</td>
                                 <td class="{{($game->player_two_id && $game->player_two_id == $game->winner_id ? 'bs-winner': '')}}">{{$game->player_two_name ? : 'Not yet set'}}</td>
                                 <td>{{$game->status}}</td>
