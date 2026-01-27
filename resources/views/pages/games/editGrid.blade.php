@@ -76,6 +76,7 @@ $fleetId = 0;
         <div class="field">
             <div class="bs-section-help">Select each vessel and plot its positions on the grid. Each vessel has a length corresponding with the number of positions which must be plotted. These changes are <b>saved automatically</b>.</div>
             <div class="bs-section-help">Click the <b>Go Random</b> button to have the game generate a random set of positions. Click <b>Save Random</b> when you see a combination of locations you like.</div>
+            <div class="bs-section-help">Click on the <b>Copy link</b> and send it to a friend to play against, or click the <b>Single Player Game</b> button to play against the machine.</div>
         </div>
 
         @include('partials.show_notification')
@@ -786,6 +787,10 @@ $fleetId = 0;
 
                     fleetVessel = fleetVessels[i];
                 }
+            }
+
+            if ('{{FleetVessel::FLEET_VESSEL_PLOTTED}}' == fleetVessel.status) {
+                showNotification('Vessel locations saved');
             }
 
             if (0 != row && 0 != col) {
