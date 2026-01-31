@@ -31,6 +31,8 @@
                             <li>If you want to get the game to plot the vessels just click on the  <span class="bs-text">Go Random</span> button.</li>
                             <li>When you have finished plotting your vessels the game status will change to <span class="bs-text">Waiting</span>.</li>
                             <li>Invite a friend to join you in battle by sending the <span class="bs-text">Player 2</span> link to them.</li>
+                            <li>When your friend has finished plotting their vessels the game status will change to <span class="bs-text">Ready</span>.</li>
+                            <li>You and your friend then click <span class="bs-text">Engage</span> to play the game.</li>
                         </ol>
                     </div>
                 </div>
