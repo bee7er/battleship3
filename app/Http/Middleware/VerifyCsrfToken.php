@@ -24,6 +24,7 @@ class VerifyCsrfToken extends BaseVerifier
         '/strikeVesselLocation',
         '/replaceFleetVesselLocations',
         '/removeAllVesselLocations',
+        '/setGameToSinglePlayer',
     ];
 
     public function handle($request, Closure $next)

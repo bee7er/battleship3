@@ -210,7 +210,7 @@ use App\Game;
             fleetVessel = {
                 fleetVesselId: {{$fleetVessel->fleet_vessel_id}},
                 vessel_name: '{{$fleetVessel->vessel_name}}',
-                status: '{{$fleetVessel['status']}}',
+                status: '{{$fleetVessel->status}}',
                 length: {{$fleetVessel->length}},
                 points: {{$fleetVessel->points}},
                 locations: fleetVesselLocations
@@ -239,7 +239,7 @@ use App\Game;
             fleetVessel = {
                 fleetVesselId: {{$fleetVessel->fleet_vessel_id}},
                 vessel_name: '{{$fleetVessel->vessel_name}}',
-                status: '{{$fleetVessel['status']}}',
+                status: '{{$fleetVessel->status}}',
                 length: {{$fleetVessel->length}},
                 points: {{$fleetVessel->points}},
                 locations: fleetVesselLocations

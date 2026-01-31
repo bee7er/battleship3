@@ -53,6 +53,8 @@ Route::post('/getLatestOpponentMove', 'API\SmbApiController@getLatestOpponentMov
 Route::post('/strikeVesselLocation', 'API\SmbApiController@strikeVesselLocation');
 Route::post('/replaceFleetVesselLocations', 'API\SmbApiController@replaceFleetVesselLocations');
 Route::post('/removeAllVesselLocations', 'API\SmbApiController@removeAllVesselLocations');
+Route::post('/setGameToSinglePlayer', 'API\SmbApiController@setGameToSinglePlayer');
+Route::post('/singlePlayerStrike', 'API\SmbApiController@singlePlayerStrike');
 
 /* Admin section */
 Route::get('/admin/dashboard', 'Admin\AdminController@index');

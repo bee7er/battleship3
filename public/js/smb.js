@@ -46,10 +46,11 @@ function ajaxCall(url, data, callBackFunction) {
             // Session timeout
             alert('Your session has expired. Please log in once more.');
             location.href = '/home';
-            return;
+            return false;
         }
         // Another error
         alert(responseData.message);
+        return false;
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
 

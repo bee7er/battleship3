@@ -61,6 +61,11 @@ class FleetVessel extends Model
 
     /**
      * Retrieve entire set of fleet vessel location
+     *
+     * @param $row
+     * @param $col
+     * @param $fleetId
+     * @return FleetVesselLocation
      */
     public static function getFleetVesselLocationByRowCol($row, $col, $fleetId)
     {

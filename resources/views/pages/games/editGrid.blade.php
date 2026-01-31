@@ -17,66 +17,72 @@ $fleetId = 0;
             @include('common.msgs')
             @include('common.errors')
 
-            <form id="gameForm" action="{{env("BASE_URL", "/")}}updateGame" method="POST" class="form-horizontal">
-                {{ csrf_field() }}
+            <input type="hidden" name="gameId" id="gameId" value="{{$game->id}}" />
+            <input type="hidden" id="userToken" value="{{$userToken}}" />
 
-                <input type="hidden" name="gameId" id="gameId" value="{{$game->id}}" />
-                <input type="hidden" id="userToken" value="{{$userToken}}" />
-
-                <table class="table is-bordered is-striped bs-form-table">
-                    <tbody>
-                        <tr class="">
-                            <td class="cell bs-section-title" width="50%">
-                                Game status:
-                            </td>
-                            <td class="cell bs-status">
-                                <span id="gameStatus">{{ucfirst($game->status)}}</span>
-                                <span id="engageLink" class="is-pulled-right">
-                                    <span class="bs-ready-to-play">The game is ready to play &gt;&gt;</span><a class="bs-games-button" href="javascript: location.href='{{env("BASE_URL", "/")}}playGrid?gameId={{$game->id}}'">Engage</a>
-                                </span>
-                            </td>
-                        </tr>
+            <table class="table is-bordered is-striped bs-form-table">
+                <tbody>
+                    <tr class="">
+                        <td class="cell bs-section-title" width="50%">
+                            Game status:
+                        </td>
+                        <td class="cell bs-status">
+                            <span id="gameStatus">{{ucfirst($game->status)}}</span>
+                            <span id="engageLink" class="is-pulled-right">
+                                <span class="bs-ready-to-play">The game is ready to play &gt;&gt;</span><a class="bs-games-button" href="javascript: location.href='{{env("BASE_URL", "/")}}playGrid?gameId={{$game->id}}'">Engage</a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td class="cell bs-section-title">
+                            Game name:
+                        </td>
+                        <td class="cell">
+                            {{$game->game_name}}
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td class="cell bs-section-title">
+                            Player 1:
+                        </td>
+                        <td class="cell{{$game->player_one_id==$userId ? 'bs-play-status': ''}}">
+                            {{$game->player_one_name}}
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td class="cell bs-section-title">
+                            @if (null != $game->player_two_name)
+                                Player 2:
+                            @else
+                                Copy link and send it to player 2:
+                            @endif
+                        </td>
+                        <td class="cell {{$game->player_two_id==$userId ? 'bs-play-status': ''}}">
+                            @if (null != $game->player_two_id)
+                                {{$game->player_two_name}}
+                            @else
+                                @include('partials.player_two')
+                            @endif
+                        </td>
+                    </tr>
+                    @if (null == $game->player_two_id)
                         <tr class="">
                             <td class="cell bs-section-title">
-                                Game name:
+                                    Play against the machine, once you have plotted your vessels:
                             </td>
                             <td class="cell">
-                                {{$game->game_name}}
+                                <button id="singlePlayerButtonId" class="button is-link bs-random_button" onclick="return singlePlayerGame();">Single Player Game</button>
                             </td>
                         </tr>
-                        <tr class="">
-                            <td class="cell bs-section-title">
-                                Player 1:
-                            </td>
-                            <td class="cell{{$game->player_one_id==$userId ? 'bs-play-status': ''}}">
-                                {{$game->player_one_name}}
-                            </td>
-                        </tr>
-                        <tr class="">
-                            <td class="cell bs-section-title">
-                                @if (null != $game->player_two_name)
-                                    Player 2:
-                                @else
-                                    Copy link and send it to player 2:
-                                @endif
-                            </td>
-                            <td class="cell {{$game->player_two_id==$userId ? 'bs-play-status': ''}}">
-                                @if (null != $game->player_two_id)
-                                    {{$game->player_two_name}}
-                                @else
-                                    @include('partials.player_two')
-                                @endif
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+                    @endif
+                </tbody>
+            </table>
 
         </article>
         <div class="field">
             <div class="bs-section-help">Select each vessel and plot its positions on the grid. Each vessel has a length corresponding with the number of positions which must be plotted. These changes are <b>saved automatically</b>.</div>
             <div class="bs-section-help">Click the <b>Go Random</b> button to have the game generate a random set of positions. Click <b>Save Random</b> when you see a combination of locations you like.</div>
-            <div class="bs-section-help">Click on the <b>Copy link</b> and send it to a friend to play against, or click the <b>Single Player Game</b> button to play against the machine.</div>
+            <div class="bs-section-help">Click on the <b>Copy link</b> and send it to a friend to play against, <b><u>or</u></b> click the <b>Single Player Game</b> button to play against the machine.</div>
         </div>
 
         @include('partials.show_notification')
@@ -231,7 +237,7 @@ $fleetId = 0;
                 fleetVessel = {
                     fleetVesselId: {{$fleetVessel->fleet_vessel_id}},
                     vessel_name: '{{$fleetVessel->vessel_name}}',
-                    status: '{{$fleetVessel['status']}}',
+                    status: '{{$fleetVessel->status}}',
                     length: {{$fleetVessel->length}},
                     points: {{$fleetVessel->points}},
                     locations: fleetVesselLocations
@@ -752,10 +758,15 @@ $fleetId = 0;
         function setGameStatus(returnedGameStatus)
         {
             $('#gameStatus').html(returnedGameStatus.gameStatus);
-            if ('{{Game::STATUS_READY}}' == returnedGameStatus.gameStatus.toLowerCase()
-                    || '{{Game::STATUS_ENGAGED}}' == returnedGameStatus.gameStatus.toLowerCase()
+            if ('{{Game::STATUS_READY}}' == returnedGameStatus.gameStatus
+                    || '{{Game::STATUS_ENGAGED}}' == returnedGameStatus.gameStatus
             ) {
                 $('#engageLink').show();
+            }
+
+            $('#singlePlayerButtonId').prop('disabled', true);
+            if ('{{Game::STATUS_WAITING}}' == returnedGameStatus.gameStatus) {
+                $('#singlePlayerButtonId').prop('disabled', false);
             }
         }
 
@@ -838,7 +849,7 @@ $fleetId = 0;
             }
 
             for (let i=0; i<fleetVessels.length; i++) {
-                // For each vessel we find space on the grid randomly.  The allocate that sapce to the vessel.
+                // For each vessel we find space on the grid randomly.  Then allocate that space to the vessel.
                 let fleetVessel = fleetVessels[i];
                 fleetVessel.status = '{{FleetVessel::FLEET_VESSEL_AVAILABLE}}';
                 // Try up to 10 times to find enough space for the vessel
@@ -855,7 +866,7 @@ $fleetId = 0;
                         vessel_name: fleetVessel.vessel_name
                     };
 
-                    // Flag available cells and if successful we randonly choose a set
+                    // Flag available cells and if successful we randomly choose a set
                     if (availableCells(unoccupiedCell.rowInt, unoccupiedCell.colInt, fleetVessel))
                     {
                         let vesselLocationsFulfilled = false;
@@ -1112,6 +1123,84 @@ $fleetId = 0;
         }
 
         /**
+         * Set the game to be single player
+         */
+        function singlePlayerGame()
+        {
+            let postData = {
+                gameId: gameId,
+                user_token: getCookie('user_token')
+            };
+
+            // ========================================================================
+            // Post the new vessel locations to the server and await the return in the callback
+            ajaxCall('setGameToSinglePlayer', JSON.stringify(postData), singlePlayerGameResult);
+
+            location.href = '/games';
+            return true;
+        }
+
+        /**
+         * Result of setting the game to be single player
+         */
+        function singlePlayerGameResult(returnedSinglePlayerData)
+        {
+            console.log('Returned new fleet ==>');
+            console.log(returnedSinglePlayerData);
+
+            if ('{{Game::STATUS_READY}}' == returnedSinglePlayerData.status)
+            {
+                // Load the new fleet data into the existing variables
+                loadSinglePlayerFleet(returnedSinglePlayerData.fleet);
+
+                // Randomly set the new fleet details
+                goRandom();
+                saveRandom();
+
+                return true;
+            }
+            showNotification('There was a problem with the setting of the game to single player');
+
+            return false;
+        }
+
+        /**
+         * Load the single-player fleet data into a jscript structure
+         * replacing the fleetVessels data, so we can randomly set it,
+         * save it and exit to tyhe play grid
+         */
+        function loadSinglePlayerFleet(singlePlayerFleetData)
+        {
+
+            console.log('Loading ==>');
+            console.log(singlePlayerFleetData);
+
+            if (undefined != singlePlayerFleetData && null != singlePlayerFleetData) {
+
+                fleetVessels = [];
+
+                for (let i=0; i<singlePlayerFleetData.length; i++) {
+                    let fleetVessel = singlePlayerFleetData[i];
+
+                    // NB this is a new unplotted fleet, so there are no locations as yet
+                    fleetVesselElem = {
+                        fleetVesselId: fleetVessel.fleet_vessel_id,
+                        vessel_name: fleetVessel.vessel_name,
+                        status: fleetVessel.status,
+                        length: fleetVessel.length,
+                        points: fleetVessel.points,
+                        locations: []
+                    };
+
+                    fleetVessels[fleetVessels.length] = fleetVesselElem;
+                }
+            }
+
+            console.log('Loaded ==>');
+            console.log(fleetVessels);
+        }
+
+        /**
          * Examine the vessels, are they all plotted?
          */
         function allVesselsPlotted()
@@ -1163,9 +1252,13 @@ $fleetId = 0;
             setCookie('user_token', $('#userToken').val(), 1);
 
             $('#engageLink').hide();
-
             @if (Game::STATUS_READY == $game->status || Game::STATUS_ENGAGED == $game->status)
                 $('#engageLink').show();
+            @endif
+
+            $('#singlePlayerButtonId').prop('disabled', true);
+            @if (Game::STATUS_WAITING == $game->status)
+                $('#singlePlayerButtonId').prop('disabled', false);
             @endif
 
             plotFleetLocations();

@@ -8,6 +8,7 @@ use App\Fleet;
 use App\FleetVessel;
 use App\FleetVesselLocation;
 use App\Message;
+use App\MessageText;
 use App\Move;
 use App\User;
 use Exception;
@@ -196,7 +197,7 @@ class SmbApiController extends Controller
 
 			$gameId = $request->get('gameId');
 			$game = Game::getGame($gameId);
-			$gameStatus = ucfirst($game->status);
+			$gameStatus = $game->status;
 			$winnerId = $game->winner_id;
 
 			$result = 'OK';
@@ -585,6 +586,133 @@ class SmbApiController extends Controller
 			$file = $exception->getFile();
 			$line = $exception->getLine();
 			Log::info('Error in replaceFleetVesselLocations(): ' . $message . ', file: ' . $file . ', line: ' . $line);
+		}
+
+		$returnData = [
+			"message" => $message,
+			"result" => $result,
+			"returnedData" => $returnedData
+		];
+
+		return $returnData;   // Gets converted to json
+	}
+
+	/**
+	 * Set the game to single player mode
+	 */
+	public function setGameToSinglePlayer(Request $request)
+	{
+		$message = "Data received OK";
+		$result = 'Error';
+		$error = null;
+		$returnedData = null;
+
+		try {
+			// User token must be provided and valid for all API calls
+			User::checkUserToken($request->get(User::USER_TOKEN));
+
+			$gameId = $request->get('gameId');
+			$game = Game::getGame($gameId);
+			$fleet = [];
+
+			if (isset($game) && null != $game)
+			{
+				if (Game::STATUS_WAITING != $game->status) {
+					$error = "Game must be in a Waiting status in order to be single player";
+				} elseif (null != $game->second_player_id) {
+					$error = "The second player must not already be set in order to be single player";
+				} else {
+					$game->player_two_id = User::SYSTEM_USER_ID;
+					$game->status = Game::STATUS_READY;
+					$game->save();
+
+					// Create a fleet from the template set of vessels for the System user
+					Fleet::createFleet($gameId, User::SYSTEM_USER_ID);
+					// Get the newly created fleet details
+					$fleet = Fleet::getFleetDetails($gameId, User::SYSTEM_USER_ID);
+
+					// Message player 1 that the game is accepted by System
+					$messageText = MessageText::retrieveMessageText(MessageText::MESSAGE_ACCEPT,
+						[
+							User::getUser($game->player_one_id)->name,
+							Game::getGame($game->id)->name,
+							User::getUser($game->player_two_id)->name,
+						]
+					);
+					Message::addMessage($messageText, $game->player_two_id, $game->player_one_id);
+				}
+			} else {
+				$error = "Game not found for id '$gameId'";
+			}
+
+			$returnedData = [
+				"fleet" => $fleet,
+				"status" => $game->status,
+				"error" => $error
+			];
+
+			$result = 'OK';
+
+		} catch(\Exception $exception) {
+			$result = 'Error';
+			$message = $exception->getMessage();
+			$file = $exception->getFile();
+			$line = $exception->getLine();
+			Log::info('Error in setGameToSinglePlayer(): ' . $message . ', file: ' . $file . ', line: ' . $line);
+		}
+
+		$returnData = [
+			"message" => $message,
+			"result" => $result,
+			"returnedData" => $returnedData
+		];
+
+		return $returnData;   // Gets converted to json
+	}
+
+	/**
+	 * In single player mode, here we are striking the opponents fleet
+	 */
+	public function singlePlayerStrike(Request $request)
+	{
+		$message = "Data received OK";
+		$result = 'Error';
+		$error = null;
+		$returnedData = null;
+
+		try {
+			// User token must be provided and valid for all API calls
+			User::checkUserToken($request->get(User::USER_TOKEN));
+
+			$gameId = $request->get('gameId');
+			$game = Game::getGame($gameId);
+
+			if (isset($game) && null != $game)
+			{
+				// Plot successful hits on a grid, ending with the latest hit
+				// If vessel was destroyed or no hits, strike a random square
+				// Bear in mind the best strategy is to strike in checker board fashion
+				// If vessel is partially destroyed then stay local to that vessel vertically or horizontally
+
+				// NB We need the strike code that records the move, etc
+                // Create a new function based on strikeVesselLocation in order to access common code
+
+			} else {
+				$error = "Game not found for id '$gameId'";
+			}
+
+			$returnedData = [
+				"error" => $error
+			];
+
+			$result = 'OK';
+
+		} catch(\Exception $exception) {
+			$result = 'Error';
+			$message = $exception->getMessage();
+			$file = $exception->getFile();
+			$line = $exception->getLine();
+			Log::info('Error in singlePlayerStrike(): ' . $message . ', file: ' . $file . ', line: ' . $line);
 		}
 
 		$returnData = [

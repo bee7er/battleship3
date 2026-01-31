@@ -3,6 +3,7 @@ use App\FleetVesselLocation;
 use App\FleetVessel;
 use App\Vessel;
 use App\Game;
+use App\User;
 ?>
 
 @extends('layouts.app')
@@ -231,6 +232,8 @@ use App\Game;
         var theirName = '{{$theirUser->name}}';
         var gameOver = ('{{Game::STATUS_COMPLETED}}' == '{{$game->status}}');
         var winnerId = {{$game->winner_id}};
+        var playerTwoId = {{$game->player_two_id}};
+        var systemUserId = {{User::SYSTEM_USER_ID}};
         var yourGoText = ' << your go!';
         var theirGoText = ' << their go!';
         var youGetAnotherGo = ' << You get another go!';
@@ -260,7 +263,7 @@ use App\Game;
             fleetVessel = {
                 fleetVesselId: {{$fleetVessel->fleet_vessel_id}},
                 vessel_name: '{{$fleetVessel->vessel_name}}',
-                status: '{{$fleetVessel['status']}}',
+                status: '{{$fleetVessel->status}}',
                 length: {{$fleetVessel->length}},
                 points: {{$fleetVessel->points}},
                 locations: fleetVesselLocations
@@ -290,7 +293,7 @@ use App\Game;
             fleetVessel = {
                 fleetVesselId: {{$fleetVessel->fleet_vessel_id}},
                 vessel_name: '{{$fleetVessel->vessel_name}}',
-                status: '{{$fleetVessel['status']}}',
+                status: '{{$fleetVessel->status}}',
                 length: {{$fleetVessel->length}},
                 points: {{$fleetVessel->points}},
                 locations: fleetVesselLocations
@@ -491,6 +494,10 @@ use App\Game;
 
                 if (hitOrDestroyed) {
                     // We allow the opponent user to continue firing
+                    // If this is single player mode we fire a shot on the server by System
+                    if (playerTwoId == systemUserId) {
+                        callSinglePlayerStrike();
+                    }
                 } else {
                     // We stop checking for moves, as it is my go
                     stopCheckingForMoves();
@@ -580,7 +587,12 @@ use App\Game;
                     // We allow the current user to continue firing
                     setYourGoText(youGetAnotherGo);
                 } else {
-                    // Now we poll the server for their response
+                    // If this is single player mode we fire a shot on the server by System
+                    if (playerTwoId == systemUserId) {
+                        callSinglePlayerStrike();
+                    }
+
+                    // Now we poll the server for their or System response
                     startCheckingForMoves();
 
                     myGo = false;
@@ -598,6 +610,19 @@ use App\Game;
             };
             // ========================================================================
             ajaxCall('getGameStatus', JSON.stringify(statusCheck), setGameStatusCallback);
+        }
+
+        /**
+         * Find the fleet vessel details based on the fleet vessel id
+         */
+        function callSinglePlayerStrike()
+        {
+            let singlePlayerStrikeData = {
+                gameId: gameId,
+                user_token: getCookie('user_token')
+            };
+            // ========================================================================
+            ajaxCall('singlePlayerStrike', JSON.stringify(singlePlayerStrikeData), null);
         }
 
         /**
