@@ -137,16 +137,23 @@ class Game extends Model
             ->leftjoin('users as player_one', 'player_one.id', '=', 'games.player_one_id')
             ->orderBy("games.name");
 
-        if (null != $userId) {
-            $builder = $builder
-                ->where("games.player_one_id", "=", $userId)
-                ->orWhere("games.player_two_id", "=", $userId);
-        }
-
         if (false == $showDeletedGames) {
             $builder = $builder
                 ->where("games.status", "!=", Game::STATUS_DELETED);
         }
+
+        if (null != $userId) {
+            // Sub-function used to group the player tests, otherwise the logic
+            // with deleted does not work due to association/precedence of operators
+            $builder = $builder
+                ->where(function($query) use ($userId)
+                {
+                    $query->where("games.player_one_id", "=", $userId)
+                        ->orWhere("games.player_two_id", "=", $userId);
+                });
+        }
+
+        dd($builder->toSql());
 
         $games = $builder->get();
 

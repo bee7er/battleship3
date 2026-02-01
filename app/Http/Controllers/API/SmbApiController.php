@@ -689,6 +689,14 @@ class SmbApiController extends Controller
 
 			if (isset($game) && null != $game)
 			{
+                // We save this latest move.
+                $move = new Move();
+                $move->game_id = $gameId;
+                $move->player_id = User::SYSTEM_USER_ID;
+                $move->row = 1;
+                $move->col = 1;
+                $move->save();
+
 				// Plot successful hits on a grid, ending with the latest hit
 				// If vessel was destroyed or no hits, strike a random square
 				// Bear in mind the best strategy is to strike in checker board fashion
