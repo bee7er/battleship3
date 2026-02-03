@@ -12,6 +12,7 @@ use Illuminate\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use SinglePlayerHandler;
 
 /**
  * Class HomeController
@@ -45,6 +46,16 @@ class HomeController extends Controller
 	 */
 	public function index(Request $request)
 	{
+		$allMoves = \App\Move::getAllMovesBySystemUser( 2 );
+
+		//dd($allMoves);
+		//=======================================
+		$singlePlayerHandler = new SinglePlayerHandler();
+		$singlePlayerHandler->setAllMoves($allMoves);
+		// Analyse all moves by the System and derive the next cell to hit
+		$singlePlayerHandler->processSinglePlayerMoves();
+
+		//========================================
 		$loggedIn = false;
 		$userToken = '';
 		$errors = [];

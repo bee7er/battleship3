@@ -51,6 +51,7 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
  * Include any custom global functions
  */
 require __DIR__.'/../app/Helpers/function.php';
+require __DIR__.'/../app/Helpers/SinglePlayerHandler.php';
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 

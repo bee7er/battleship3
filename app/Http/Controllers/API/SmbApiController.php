@@ -414,7 +414,6 @@ class SmbApiController extends Controller
 		$message = "Data received OK";
 		$result = 'Error';
 		$returnedData = null;
-		$affectedLocations = null;
 
 		try {
 			// User token must be provided and valid for all API calls
@@ -423,36 +422,10 @@ class SmbApiController extends Controller
 			$userId = $request->get('userId');
 			$gameId = $request->get('gameId');
 			$fleetId = $request->get('fleetId');
-			// Check if this is the first move by this user for this game
-			$userMoves = Move::getMoves($gameId, $userId);
-			if (!isset($userMoves) || count($userMoves) <= 0) {
-				// First move, bump up the game played counter
-				User::addGameCount($userId);
-			}
-			// We save this latest move.
-			$move = new Move();
-			$move->game_id = $gameId;
-			$move->player_id = $userId;
-			$move->row = $request->get('row');
-			$move->col = $request->get('col');
-			$move->save();
+			$row = $request->get('row');
+			$col = $request->get('col');
 
-			$locationHit = FleetVessel::getFleetVesselLocationByRowCol($move->row, $move->col, $fleetId);
-
-			if (isset($locationHit)) {
-				// Record the move that caused this hit
-				$fvl = FleetVesselLocation::getFleetVesselLocationById($locationHit->fleet_vessel_location_id);
-				$fvl->move_id = $move->id;
-				$fvl->save();
-				// The strike has hit a vessel at that location.  Get all affected locations.
-				$affectedLocations = $this->getAffectedLocations($locationHit, $userId);
-				// The move was successful, so record that against the move
-				$move->hit_vessel = 1;
-				$move->save();
-			}
-
-			// Check if all fleet vessels have been destroyed, derives the game status as it currently stands
-			Game::setGameStatus($gameId);
+            list($move, $affectedLocations) = $this->processStrike($gameId, $fleetId, $userId, $row, $col);
 
 			$returnedData = [
 				'move' => $move,
@@ -474,6 +447,48 @@ class SmbApiController extends Controller
 
 		return $returnData;   // Gets converted to json
 	}
+
+	/**
+	 * A strike has been made, process it.
+	 */
+	private function processStrike($gameId, $fleetId, $userId, $row, $col)
+	{
+        $affectedLocations = null;
+        $move = null;
+        // Check if this is the first move by this user for this game
+        $userMoves = Move::getMoves($gameId, $userId);
+        if (!isset($userMoves) || count($userMoves) <= 0) {
+            // First move, bump up the game played counter
+            User::addGameCount($userId);
+        }
+        // We save this latest move.
+        $move = new Move();
+        $move->game_id = $gameId;
+        $move->player_id = $userId;
+        $move->row = $row;
+        $move->col = $col;
+        $move->save();
+
+        $locationHit = FleetVessel::getFleetVesselLocationByRowCol($move->row, $move->col, $fleetId);
+
+        if (isset($locationHit)) {
+            // Record the move that caused this hit
+            $fvl = FleetVesselLocation::getFleetVesselLocationById($locationHit->fleet_vessel_location_id);
+            $fvl->move_id = $move->id;
+            $fvl->save();
+            // The strike has hit a vessel at that location.  Get all affected locations.
+            $affectedLocations = $this->getAffectedLocations($locationHit, $userId);
+            // The move was successful, so record that against the move
+            $move->hit_vessel = 1;
+            $move->hit_vessel_id = $locationHit->fleet_vessel_id;
+            $move->save();
+        }
+
+        // Check if all fleet vessels have been destroyed, derives the game status as it currently stands
+        Game::setGameStatus($gameId);
+
+        return [$move, $affectedLocations];
+    }
 
 	/**
 	 * A successful hit, find and returned all affected locations
@@ -686,24 +701,24 @@ class SmbApiController extends Controller
 
 			$gameId = $request->get('gameId');
 			$game = Game::getGame($gameId);
+            $fleet = Fleet::getFleet($gameId, $game->player_one_id);
 
 			if (isset($game) && null != $game)
 			{
-                // We save this latest move.
-                $move = new Move();
-                $move->game_id = $gameId;
-                $move->player_id = User::SYSTEM_USER_ID;
-                $move->row = 1;
-                $move->col = 1;
-                $move->save();
+                $allMoves = Move::getAllMovesBySystemUser($gameId);
 
-				// Plot successful hits on a grid, ending with the latest hit
-				// If vessel was destroyed or no hits, strike a random square
-				// Bear in mind the best strategy is to strike in checker board fashion
-				// If vessel is partially destroyed then stay local to that vessel vertically or horizontally
-
-				// NB We need the strike code that records the move, etc
-                // Create a new function based on strikeVesselLocation in order to access common code
+                $singlePlayerHandler = new \SinglePlayerHandler();
+                $singlePlayerHandler->setAllMoves($allMoves);
+                // Analyse all moves by the System and derive the next cell to hit
+                $singlePlayerHandler->processSinglePlayerMoves();
+                // Apply the next strike
+                list($move, $affectedLocations) = $this->processStrike(
+                    $gameId,
+                    $fleet->id,
+                    User::SYSTEM_USER_ID,
+                    $singlePlayerHandler->getNextRow(),
+                    $singlePlayerHandler->getNextCol()
+                );
 
 			} else {
 				$error = "Game not found for id '$gameId'";
@@ -731,4 +746,5 @@ class SmbApiController extends Controller
 
 		return $returnData;   // Gets converted to json
 	}
+
 }

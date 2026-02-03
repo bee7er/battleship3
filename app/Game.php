@@ -153,7 +153,7 @@ class Game extends Model
                 });
         }
 
-        dd($builder->toSql());
+        //dd($builder->toSql());
 
         $games = $builder->get();
 

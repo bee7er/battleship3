@@ -74,23 +74,58 @@ class Move extends Model
     }
 
     /**
-     * Gets the latest move for the specified game.
+     * Gets the latest move for the specified game and optionally for the specified user.
      *
      * @param $gameId
+     * @param $userId
      * @return mixed
      */
-    public static function getLatestMove($gameId)
+    public static function getLatestMove($gameId, $userId=null)
     {
         $builder = self::select('*')
             ->orderBy("moves.id", "DESC")
             ->limit(1);
 
-        $move = $builder->where("moves.game_id", "=", $gameId)->get();
+        $builder = $builder->where("moves.game_id", "=", $gameId);
+        if (null != $userId) {
+            $builder = $builder->where("moves.player_id", "=", $userId);
+        }
+
+        $move = $builder->get();
 
         if (isset($move) && count($move) > 0) {
             return $move[0];
         }
 
         return null;
+    }
+
+    /**
+     * Retrieve all moves for the System user for the specified game
+     *
+     * @param $gameId
+     * @return mixed
+     */
+    public static function getAllMovesBySystemUser($gameId)
+    {
+        $builder = self::select([
+            'moves.id',
+            'moves.game_id',
+            'moves.player_id',
+            'moves.row',
+            'moves.col',
+            'moves.hit_vessel',
+            'moves.hit_vessel_id',
+            'fleet_vessels.status as fleet_vessel_status',
+        ])
+            ->leftjoin('fleet_vessels', 'fleet_vessels.id', '=', 'moves.hit_vessel_id')
+            ->orderBy("moves.id", "DESC");
+
+        $builder = $builder->where("moves.game_id", "=", $gameId)
+            ->where("moves.player_id", "=", User::SYSTEM_USER_ID);
+
+        $moves = $builder->get();
+
+        return $moves;
     }
 }

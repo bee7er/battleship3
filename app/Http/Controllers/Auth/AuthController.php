@@ -6,7 +6,6 @@ use App\Message;
 use App\MessageText;
 use App\User;
 use Exception;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Guard;
 use Illuminate\Database\QueryException;

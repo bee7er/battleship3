@@ -21,6 +21,7 @@ class CreateMovesTable extends Migration
             $table->unsignedInteger('row')->default(0);
             $table->unsignedInteger('col')->default(0);
             $table->unsignedInteger('hit_vessel')->default(0);
+            $table->unsignedInteger('hit_vessel_id');
             $table->timestamps();
         });
     }
