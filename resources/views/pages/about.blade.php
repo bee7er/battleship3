@@ -53,6 +53,11 @@
                         <p>Click <span class="bs-text">Engage</span> to play the game.</p>
                         <p>The winner is the player who first destroys all the opponent's fleet vessels.</p>
 
+                        <h4 class="title is-5">Play Against the Machine</h4>
+                        <p>When you have plotted your vessels and the game is in a status of <span class="bs-text">Waiting</span> you can opt to play the <span class="bs-text">Single Player Game</span>.</p>
+                        <p>Simply click the <span class="bs-text">Single Player Game</span> button.</p>
+                        <p>You will be presented with the <span class="bs-text">My Games</span> page where you can click <span class="bs-text">Engage</span> to continue.  You will notice that your opponent is the <span class="bs-text">System Admin</span> player.</p>
+
                         <h4 class="title is-5">Game Status</h4>
                         <p>Each game goes through a number of statuses (stati?) depending on the actions of the players.</p>
                         <ol class="is-4">

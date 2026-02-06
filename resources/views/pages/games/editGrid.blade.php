@@ -948,9 +948,11 @@ $fleetId = 0;
             fleetVessel.locations = [];
 
             // We try not to start from the edge all the time
-            let start = (availableCells.length - fleetVessel.length);
+            let start = (parseInt(availableCells.length) - parseInt(fleetVessel.length));
+            if (2 < start) start -= 1;
             let idx = 0;
-            for (let i=start; i<(fleetVessel.length + start); i++) {
+
+            for (let i=parseInt(start); i<(parseInt(fleetVessel.length) + parseInt(start)); i++) {
                 let cell = availableCells[i];
                 let elemIdData = cell.split('_');
                 let rowInt = parseInt(elemIdData[0]);

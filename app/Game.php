@@ -95,7 +95,10 @@ class Game extends Model
             }
             // Add numbers until we get a unique name
             for ($n=1; $n<25; $n++) {
-                $name = $name."_$n";
+                if (!strpos($name, '_')) {
+                    $name = $name."_";
+                }
+                $name = $name."$n";
                 $game = self::getGameByName($name);
                 if (!isset($game) || count($game) <= 0) {
                     return $name;
