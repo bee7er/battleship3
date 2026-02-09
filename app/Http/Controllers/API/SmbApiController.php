@@ -712,7 +712,7 @@ class SmbApiController extends Controller
                 $singlePlayerHandler = new \SinglePlayerHandler();
                 $singlePlayerHandler->setAllMoves($allMoves);
                 $singlePlayerHandler->setSmallestVesselSize($smallestVesselSize);
-                
+
                 // Analyse all moves by the System and derive the next cell to hit
                 $singlePlayerHandler->processSinglePlayerMoves();
                 // Apply the next strike

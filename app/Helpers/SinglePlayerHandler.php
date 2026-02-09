@@ -115,7 +115,6 @@ class SinglePlayerHandler
                     throw new Exception("handleHitVesselWithMultiHits: unexpectedly, using rows, there is no available cell to hit");
             }
         }
-        print("multi hit {$nextRow}, {$nextCol}<br>");
 
         return [$nextRow, $nextCol];
     }
@@ -167,7 +166,6 @@ class SinglePlayerHandler
      */
     private function isFree($row, $col)
     {
-        print("$row, $col<br>");
         if (
             (0 == $row || $row > self::GRID_SIZE) ||
             (0 == $col || $col > self::GRID_SIZE)

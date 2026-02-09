@@ -1138,7 +1138,6 @@ $fleetId = 0;
             // Post the new vessel locations to the server and await the return in the callback
             ajaxCall('setGameToSinglePlayer', JSON.stringify(postData), singlePlayerGameResult);
 
-            location.href = '/games';
             return true;
         }
 
@@ -1147,9 +1146,6 @@ $fleetId = 0;
          */
         function singlePlayerGameResult(returnedSinglePlayerData)
         {
-            console.log('Returned new fleet ==>');
-            console.log(returnedSinglePlayerData);
-
             if ('{{Game::STATUS_READY}}' == returnedSinglePlayerData.status)
             {
                 // Load the new fleet data into the existing variables
@@ -1173,10 +1169,6 @@ $fleetId = 0;
          */
         function loadSinglePlayerFleet(singlePlayerFleetData)
         {
-
-            console.log('Loading ==>');
-            console.log(singlePlayerFleetData);
-
             if (undefined != singlePlayerFleetData && null != singlePlayerFleetData) {
 
                 fleetVessels = [];
@@ -1197,9 +1189,6 @@ $fleetId = 0;
                     fleetVessels[fleetVessels.length] = fleetVesselElem;
                 }
             }
-
-            console.log('Loaded ==>');
-            console.log(fleetVessels);
         }
 
         /**
