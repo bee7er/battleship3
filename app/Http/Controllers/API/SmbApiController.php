@@ -706,9 +706,13 @@ class SmbApiController extends Controller
 			if (isset($game) && null != $game)
 			{
                 $allMoves = Move::getAllMovesBySystemUser($gameId);
+                // Get the size of the opponent's smallest vessel which has not been hit
+                $smallestVesselSize = FleetVessel::getFleetVesselMinimumLength($fleet->id);
 
                 $singlePlayerHandler = new \SinglePlayerHandler();
                 $singlePlayerHandler->setAllMoves($allMoves);
+                $singlePlayerHandler->setSmallestVesselSize($smallestVesselSize);
+                
                 // Analyse all moves by the System and derive the next cell to hit
                 $singlePlayerHandler->processSinglePlayerMoves();
                 // Apply the next strike

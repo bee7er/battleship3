@@ -117,8 +117,10 @@ class Move extends Model
             'moves.hit_vessel',
             'moves.hit_vessel_id',
             'fleet_vessels.status as fleet_vessel_status',
+            'vessels.length',
         ])
             ->leftjoin('fleet_vessels', 'fleet_vessels.id', '=', 'moves.hit_vessel_id')
+            ->leftjoin('vessels', 'vessels.id', '=', 'fleet_vessels.vessel_id')
             ->orderBy("moves.id", "DESC");
 
         $builder = $builder->where("moves.game_id", "=", $gameId)

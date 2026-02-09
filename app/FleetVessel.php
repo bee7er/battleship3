@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class FleetVessel extends Model
 {
@@ -141,5 +142,24 @@ class FleetVessel extends Model
         }
 
         return (!$atLeastOneIntact);
+    }
+
+    /**
+     * Finds the length of the smallest remaining vessel
+     */
+    public static function getFleetVesselMinimumLength($fleetId)
+    {
+        $builder = self::select(MIN(['vessels.length']))
+            ->join('vessels', 'vessels.id', '=', 'fleet_vessels.vessel_id')
+            ->where("fleet_vessels.status", "=", FleetVessel::FLEET_VESSEL_PLOTTED)
+            ->where("fleet_vessels.fleet_id", "=", $fleetId)
+            ->orderBy("vessels.length");
+
+        $vessels = $builder->get();
+        if (isset($vessels) && count($vessels) >= 1) {
+            return $vessels[0]->length;
+        }
+
+        return 0;
     }
 }

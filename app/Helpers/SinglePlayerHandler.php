@@ -6,11 +6,14 @@ use \App\FleetVessel;
 class SinglePlayerHandler
 {
     const GRID_SIZE = 10;
+    const ROW_OK = 'row';
+    const COL_OK = 'col';
 
     private $gameId = 0;
     private $allMoves = [];
     private $workGrid = [];
     private $hitVessels = [];
+    private $smallestVesselSize = 0;
     private $nextRow = 0;
     private $nextCol = 0;
 
@@ -122,23 +125,33 @@ class SinglePlayerHandler
      */
     private function handleHitVesselWithOneHit($aMove)
     {
+        // We can piggy back the analysis of space when no hits have been secured
+        // We are checking there is room for the vessel we have just hit
+		$this->setSmallestVesselSize($aMove->length);
+        // We nullify the row/col so that we include that cell in the calc of spaces available
+        $this->workGrid[$aMove->row][$aMove->col] = null;
+
+        $rowOrColOk = $this->isRoomForSmallestVessel($aMove->row, $aMove->col);
+
+
         switch (true) {
-            case $this->isFree($aMove->row, ($aMove->col - 1)):
+            case ($this->isFree($aMove->row, ($aMove->col - 1)) && self::ROW_OK == $rowOrColOk):
                 $nextRow = $aMove->row;
                 $nextCol = $aMove->col - 1;
                 break;
 
-            case $this->isFree(($aMove->row - 1), $aMove->col):
+            case (
+                $this->isFree(($aMove->row - 1), $aMove->col) && self::COL_OK == $rowOrColOk):
                 $nextRow = $aMove->row - 1;
                 $nextCol = $aMove->col;
                 break;
 
-            case $this->isFree($aMove->row, ($aMove->col + 1)):
+            case ($this->isFree($aMove->row, ($aMove->col + 1)) && self::ROW_OK == $rowOrColOk):
                 $nextRow = $aMove->row;
                 $nextCol = $aMove->col + 1;
                 break;
 
-            case $this->isFree(($aMove->row + 1), $aMove->col):
+            case ($this->isFree(($aMove->row + 1), $aMove->col) && self::COL_OK == $rowOrColOk):
                 $nextRow = $aMove->row + 1;
                 $nextCol = $aMove->col;
                 break;
@@ -193,6 +206,9 @@ class SinglePlayerHandler
     private function getNextAvailableCell($startRow, $startCol)
     {
         // We attempt to leave a gap, as checkerboard pattern is most efficient strategy
+        // But some cells cannot be where the opponent has their vessels because there isn't enough room
+        // We use the minimum length of the remaining vessels.  Thus, if 3 cells is the minimum length
+        // then the next available cell must be part of at least 3 spaces.
         $startCol += 2;
         $newRow = false;
         if ($startCol == self::GRID_SIZE + 1) {
@@ -215,7 +231,10 @@ class SinglePlayerHandler
         for ($n=0; $n<2; $n++) {
             for ($i = $startRow; $i <= self::GRID_SIZE; $i++) {
                 for ($j = $startCol; $j <= self::GRID_SIZE; $j++) {
-                    if (null == $this->workGrid[$i][$j]) {
+                    if (
+                        null == $this->workGrid[$i][$j]
+                        && false != $this->isRoomForSmallestVessel($i, $j)
+                    ) {
                         return [$i, $j];
                     }
                 }
@@ -225,6 +244,55 @@ class SinglePlayerHandler
             $startCol = 1;
         }
         throw new Exception('getNextAvailableCell: could not find an available cell');
+    }
+
+    /**
+     * Checks for a given row/col that it is part of a set of cells capable of storing
+     * the smallest vessel in the opponent's fleet.
+     * Note that this only applies to vessels that have not yet been hit.  If a vessel has been hit
+     * then we just chase the cells around that vessel.
+     */
+    public function isRoomForSmallestVessel($startRow, $startCol)
+    {
+        // Using the start row first, we navigate the columns, go towards zero and then come forward to count how many
+        // available cells there are.  If more than smallest vessel size then this cell is available
+        for ($i=$startCol; $i>0; $i--) {
+            if (null != $this->workGrid[$startRow][$i]) {
+                break;
+            }
+        }
+        // $i = the starting column, but add one because we dropped out with a non-null or zero
+        $i = $i + 1;
+        for ($j=$i; $j<=self::GRID_SIZE; $j++) {
+            if (null != $this->workGrid[$startRow][$j]) {
+                break;
+            }
+        }
+        if (($j - $i) >= $this->smallestVesselSize) {
+            // The extent of available cells is equal to or greater than the space needed
+            return self::ROW_OK;
+        }
+        // If we get here then there wasn't enough room on the row, try the column
+        // Using the start col first, we navigate the rows, go towards zero and then come forward to count how many
+        // available cells there are.  If more than smallest vessel size then this cell is available
+        for ($i=$startRow; $i>0; $i--) {
+            if (null != $this->workGrid[$i][$startCol]) {
+                break;
+            }
+        }
+        // $i = the starting row, but add one because we dropped out with a non-null or zero
+        $i = $i + 1;
+        for ($j=$i; $j<=self::GRID_SIZE; $j++) {
+            if (null != $this->workGrid[$j][$startCol]) {
+                break;
+            }
+        }
+        if (($j - $i) >= $this->smallestVesselSize) {
+            // The extent of available cells is equal to or greater than the space needed
+            return self::COL_OK;
+        }
+
+        return false;
     }
 
     /**
@@ -263,6 +331,11 @@ class SinglePlayerHandler
         return $this->nextCol;
     }
 
+    public function getSmallestVesselSize()
+    {
+        return $this->smallestVesselSize;
+    }
+
     public function setNextRow($nextRow)
     {
         $this->nextRow = $nextRow;
@@ -271,5 +344,15 @@ class SinglePlayerHandler
     public function setNextCol($nextCol)
     {
         $this->nextCol = $nextCol;
+    }
+
+    public function setSmallestVesselSize($smallestVesselSize)
+    {
+        $this->smallestVesselSize = $smallestVesselSize;
+    }
+
+    public function setWorkGrid($workGrid)
+    {
+        $this->workGrid = $workGrid;
     }
 }
