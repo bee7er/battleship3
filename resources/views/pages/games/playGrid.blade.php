@@ -468,8 +468,6 @@ use App\User;
                             let fvl = fleetVessel.locations[j];
                             if (fvl.id == loc.fleetVesselLocationId) {
                                 fvl.status = loc.status;
-                                console.log('fvl');
-                                console.log(fvl);
                                 if (loc.status == '{{FleetVesselLocation::FLEET_VESSEL_LOCATION_HIT}}') {
                                     hitOrDestroyed = true;
                                     if (fvl.sounded <= 0) {
@@ -745,7 +743,7 @@ use App\User;
         }
 
         // Call across to the server to see if there have been any changes
-        let intervalId;
+        var intervalId = null;
         function startCheckingForMoves()
         {
             //console.log('Starting to check for moves on the server');
@@ -753,10 +751,11 @@ use App\User;
         }
         function stopCheckingForMoves()
         {
-            //console.log('Stop checking for moves on the server');
-            clearInterval(intervalId);
-            // release our intervalId from the variable
-            intervalId = null;
+            if (null != intervalId) {
+                clearInterval(intervalId);
+                // release our intervalId from the variable
+                intervalId = null;
+            }
         }
         function checkForChanges()
         {

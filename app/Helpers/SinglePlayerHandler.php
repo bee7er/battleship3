@@ -185,7 +185,7 @@ class SinglePlayerHandler
             $this->workGrid[$aMove->row][$aMove->col] = $aMove;
             // While we are doing this we load an array of vessels we have hit, that have not been destroyed
             if ($aMove->hit_vessel && FleetVessel::FLEET_VESSEL_DESTROYED != $aMove->fleet_vessel_status) {
-                $this->hitVessels[$aMove->hit_vessel_id][] = $aMove;
+                $this->hitVessels[$aMove->hit_fleet_vessel_id][] = $aMove;
             }
         }
     }

@@ -480,7 +480,7 @@ class SmbApiController extends Controller
             $affectedLocations = $this->getAffectedLocations($locationHit, $userId);
             // The move was successful, so record that against the move
             $move->hit_vessel = 1;
-            $move->hit_vessel_id = $locationHit->fleet_vessel_id;
+            $move->hit_fleet_vessel_id = $locationHit->fleet_vessel_id;
             $move->save();
         }
 
