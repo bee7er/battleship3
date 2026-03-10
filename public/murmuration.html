@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Murmuration</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+
+    <link href="/css/site.css?v24" rel="stylesheet">
+    <style>
+        .the-canvas {
+            margin-top: 50px;
+            margin-left: 50px;
+            width: 800px;
+            height: 600px;
+            border: 1px solid #0000c4;
+        }​
+    </style>
+</head>
+<body>
+
+
+<div>
+    <canvas id="canvas" class="the-canvas" width="800" height="600"></canvas>
+    <div style="padding-left: 50px;">
+        <input class="button is-link" id="toggleButton" type="button" value="" onclick="return toggleContinuous();" />
+        <div id="tip" style="color: #c40000;font-weight: bold;">&nbsp;</div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    var mouseX = 400;
+    var orgMouseX = 400;
+    var mouseY = 300;
+    var orgMouseY = 300;
+    var flightArea = 150;
+    var cWidth = 800, cHeight = 600;
+    var bifs = [];
+    var useCursor = true;
+    var cursorText = 'Switch to Continuous';
+    var cursorTip = 'Move the cursor anywhere in the square';
+    var continuousText = 'Switch to Cursor';
+    var continuousTip = 'Sit back and relax';
+
+    // Load the array of birds in flight (bifs)
+    for (let i=0; i<200; i++) {
+        bifs[i] = {
+            x: 0,
+            y: 0,
+            offsetX: getRandomInt((flightArea * -1), flightArea),
+            offsetY: getRandomInt((flightArea * -1), flightArea),
+            orgOffsetX: 0,
+            orgOffsetY: 0
+        };
+        bifs[i].orgOffsetX = bifs[i].offsetX;
+        bifs[i].orgOffsetY = bifs[i].offsetY;
+    }
+
+    $(document).ready( function()
+    {
+        checkButtonValue();
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        function animate() {
+
+            ctx.clearRect(0, 0, cWidth, cHeight);
+            for (const p of bifs) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 2, 0, 2 * Math.PI);
+                ctx.fillStyle = 'black';
+                ctx.fill();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+    });
+
+    function toggleContinuous()
+    {
+        useCursor = !useCursor;
+        
+        checkButtonValue();
+
+        if (useCursor) {
+            stopContinuous();
+        } else {
+            mouseX = orgMouseX;
+            mouseY = orgMouseY;
+
+            goContinuous();
+        }
+    }
+
+    function checkButtonValue()
+    {
+        if (useCursor) {
+            $('#toggleButton').attr('value', cursorText);
+            $('#tip').html(cursorTip);
+        } else {
+            $('#toggleButton').attr('value', continuousText);
+            $('#tip').html(continuousTip);
+        }
+    }
+
+    var intervalId = null;
+    function goContinuous()
+    {
+        intervalId = setInterval(moveBifs, 100);
+    }
+    function stopContinuous()
+    {
+        if (null != intervalId) {
+            clearInterval(intervalId);
+            // release our intervalId from the variable
+            intervalId = null;
+        }
+    }
+    function moveBifs()
+    {
+        mouseX = getRandomInt(mouseX - 25, mouseX + 25);
+        if (mouseX >= cWidth) mouseX = mouseX - 20;
+        if (mouseX <= 0) mouseX = mouseX + 20;
+
+        mouseY = getRandomInt(mouseY - 25, mouseY + 25);
+        if (mouseY >= cHeight) mouseY = mouseY - 20;
+        if (mouseY <= 0) mouseY = mouseY + 20;
+
+        calcPositions();
+    }
+
+    $('#canvas').get(0).addEventListener("mousemove", function(e)
+    {
+        if (false == useCursor) {
+            return;
+        }
+
+        if(e.offsetX) {
+            mouseX = e.offsetX;
+            mouseY = e.offsetY;
+        }
+        else if(e.layerX) {
+            mouseX = e.layerX;
+            mouseY = e.layerY;
+        }
+
+        calcPositions();
+    });
+
+    function calcPositions()
+    {
+        // Calculate the relative position of bifs (birds in flight) here
+        for (const p of bifs)
+        {
+            p.x = p.offsetX + mouseX;
+            p.y = p.offsetY + mouseY;
+
+            let distance = Math.floor(Math.sqrt((mouseX - p.x) ** 2 + (mouseY - p.y) ** 2));
+            if (distance > flightArea) {
+                p.x = mouseX;
+                p.y = mouseY;
+            }
+
+            p.offsetX = getRandomInt(p.offsetX - 5, p.offsetX + 5);
+            if (p.offsetX > flightArea || p.offsetX < (flightArea * -1)) {
+                p.offsetX = p.orgOffsetX;
+            }
+            p.offsetY = getRandomInt(p.offsetY - 5, p.offsetY + 5);
+            if (p.offsetY > flightArea || p.offsetY < (flightArea * -1)) {
+                p.offsetY = p.orgOffsetY;
+            }
+        }
+    }
+
+    function getRandomInt(min, max) {
+        const minCeiled = Math.ceil(min);
+        const maxFloored = Math.floor(max + 1);
+        // The maximum is exclusive and the minimum is inclusive
+        return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
+    }
+
+</script>
+</body>
+</html>
