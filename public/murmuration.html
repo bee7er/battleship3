@@ -37,6 +37,8 @@
 
 <script type="text/javascript">
 
+    var ctx;
+    var canvas;
     var mouseX = 400;
     var orgMouseX = 400;
     var mouseY = 300;
@@ -51,6 +53,9 @@
     var continuousText = 'Switch to Cursor';
     var continuousTip = 'Sit back and relax';
     var stopTip = 'Click button to Restart';
+
+    canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
 
     // Load the array of birds in flight (bifs)
     for (let i=0; i<200; i++) {
@@ -71,9 +76,6 @@
         checkButtonValue();
 
         setCanvasSize();
-
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
 
         function animate() {
 
@@ -134,8 +136,6 @@
         cWidth = $(window).width() - 100;
         cHeight = $(window).height() - 100;
 
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
         ctx.canvas.width  = cWidth;
         ctx.canvas.height = cHeight;
     }
@@ -166,29 +166,6 @@
         calcPositions();
     }
 
-    window.addEventListener("resize", function(e)
-    {
-        setCanvasSize();
-    });
-
-    $('#canvas').get(0).addEventListener("mousemove", function(e)
-    {
-        if (false == useCursor) {
-            return;
-        }
-
-        if(e.offsetX) {
-            mouseX = e.offsetX;
-            mouseY = e.offsetY;
-        }
-        else if(e.layerX) {
-            mouseX = e.layerX;
-            mouseY = e.layerY;
-        }
-
-        calcPositions();
-    });
-
     function calcPositions()
     {
         // Calculate the relative position of bifs (birds in flight) here
@@ -215,11 +192,34 @@
     }
 
     function getRandomInt(min, max) {
-        const minCeiled = Math.ceil(min);
-        const maxFloored = Math.floor(max + 1);
+        let minCeiled = Math.ceil(min);
+        let maxFloored = Math.floor(max + 1);
         // The maximum is exclusive and the minimum is inclusive
         return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
     }
+
+    window.addEventListener("resize", function(e)
+    {
+        setCanvasSize();
+    });
+
+    canvas.addEventListener("mousemove", function(e)
+    {
+        if (false == useCursor) {
+            return;
+        }
+
+        if(e.offsetX) {
+            mouseX = e.offsetX;
+            mouseY = e.offsetY;
+        }
+        else if(e.layerX) {
+            mouseX = e.layerX;
+            mouseY = e.layerY;
+        }
+
+        calcPositions();
+    });
 
 </script>
 </body>
