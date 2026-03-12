@@ -16,8 +16,8 @@
         .the-canvas {
             margin-top: 50px;
             margin-left: 50px;
-            width: 800px;
-            height: 600px;
+            xwidth: 800px;
+            xheight: 600px;
             border: 1px solid #0000c4;
         }​
     </style>
@@ -26,10 +26,11 @@
 
 
 <div>
-    <canvas id="canvas" class="the-canvas" width="800" height="600"></canvas>
+    <canvas id="canvas" class="the-canvas" xwidth="800" xheight="600"></canvas>
     <div style="padding-left: 50px;">
         <input class="button is-link" id="toggleButton" type="button" value="" onclick="return toggleContinuous();" />
-        <div id="tip" style="color: #c40000;font-weight: bold;">&nbsp;</div>
+        <input class="button is-link" id="stopButton" type="button" value="Stop" onclick="return stop();" />
+        <div id="tip" style="color: #c40000;font-weight: bold;font-size: 1.2em">&nbsp;</div>
     </div>
 </div>
 
@@ -41,13 +42,15 @@
     var mouseY = 300;
     var orgMouseY = 300;
     var flightArea = 150;
-    var cWidth = 800, cHeight = 600;
+    var cWidth = $(window).width() - 100;
+    var cHeight = $(window).height() - 100;
     var bifs = [];
     var useCursor = true;
     var cursorText = 'Switch to Continuous';
-    var cursorTip = 'Move the cursor anywhere in the square';
+    var cursorTip = 'Move the cursor anywhere in the box';
     var continuousText = 'Switch to Cursor';
     var continuousTip = 'Sit back and relax';
+    var stopTip = 'Click button to Restart';
 
     // Load the array of birds in flight (bifs)
     for (let i=0; i<200; i++) {
@@ -66,6 +69,8 @@
     $(document).ready( function()
     {
         checkButtonValue();
+
+        setCanvasSize();
 
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -102,6 +107,17 @@
         }
     }
 
+    function stop()
+    {
+        useCursor = false;
+
+        stopContinuous();
+
+        checkButtonValue();
+
+        $('#tip').html(stopTip);
+    }
+
     function checkButtonValue()
     {
         if (useCursor) {
@@ -113,10 +129,21 @@
         }
     }
 
+    function setCanvasSize()
+    {
+        cWidth = $(window).width() - 100;
+        cHeight = $(window).height() - 100;
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.canvas.width  = cWidth;
+        ctx.canvas.height = cHeight;
+    }
+
     var intervalId = null;
     function goContinuous()
     {
-        intervalId = setInterval(moveBifs, 100);
+        intervalId = setInterval(moveBifs, 20);
     }
     function stopContinuous()
     {
@@ -128,16 +155,21 @@
     }
     function moveBifs()
     {
-        mouseX = getRandomInt(mouseX - 25, mouseX + 25);
+        mouseX = getRandomInt(mouseX - 5, mouseX + 5);
         if (mouseX >= cWidth) mouseX = mouseX - 20;
         if (mouseX <= 0) mouseX = mouseX + 20;
 
-        mouseY = getRandomInt(mouseY - 25, mouseY + 25);
+        mouseY = getRandomInt(mouseY - 5, mouseY + 5);
         if (mouseY >= cHeight) mouseY = mouseY - 20;
         if (mouseY <= 0) mouseY = mouseY + 20;
 
         calcPositions();
     }
+
+    window.addEventListener("resize", function(e)
+    {
+        setCanvasSize();
+    });
 
     $('#canvas').get(0).addEventListener("mousemove", function(e)
     {
