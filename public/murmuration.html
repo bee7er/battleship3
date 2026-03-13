@@ -139,6 +139,7 @@
     function goContinuous()
     {
         intervalId = setInterval(moveBifs, 20);
+        $("#stopButton").prop("disabled", false);
     }
     function stopContinuous()
     {
@@ -147,6 +148,7 @@
             // release our intervalId from the variable
             intervalId = null;
         }
+        $("#stopButton").prop("disabled", true);
     }
     function moveBifs()
     {
