@@ -204,17 +204,32 @@
             return;
         }
 
-        if(e.offsetX) {
+        if (e.offsetX) {
             mouseX = e.offsetX;
             mouseY = e.offsetY;
         }
-        else if(e.layerX) {
+        else if (e.layerX) {
             mouseX = e.layerX;
             mouseY = e.layerY;
         }
 
         calcPositions();
     });
+
+    // Support touch screens
+    function touchXY(e)
+    {
+        if (!e)
+            var e = event;
+        e.preventDefault();
+
+        mouseX = e.targetTouches[0].pageX - canvas.offsetLeft;
+        mouseY = e.targetTouches[0].pageY - canvas.offsetTop;
+
+        calcPositions();
+    }
+
+    canvas.addEventListener("touchmove", touchXY, false);
 
 </script>
 </body>
