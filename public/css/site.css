@@ -370,3 +370,20 @@ hr {
 .bs-triangle {
     margin-top: 5px;
 }
+
+.bs-the-canvas {
+    margin-top: 50px;
+    margin-left: 50px;
+    border: 1px solid #0000c4;
+}
+
+.bs-canvas-tip {
+    color: #c40000;
+    font-weight: bold;
+    font-size: 1.2em
+}
+
+.bs-container {
+    margin-top: 10px;
+    margin-left: 50px;
+}​

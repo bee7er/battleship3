@@ -11,26 +11,16 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
 
-    <link href="/css/site.css?v24" rel="stylesheet">
-    <style>
-        .the-canvas {
-            margin-top: 50px;
-            margin-left: 50px;
-            xwidth: 800px;
-            xheight: 600px;
-            border: 1px solid #0000c4;
-        }​
-    </style>
+    <link href="/css/site.css?v25" rel="stylesheet">
 </head>
 <body>
 
-
 <div>
-    <canvas id="canvas" class="the-canvas" xwidth="800" xheight="600"></canvas>
-    <div style="padding-left: 50px;">
+    <canvas id="canvas" class="bs-the-canvas"></canvas>
+    <div class="bs-container">
         <input class="button is-link" id="toggleButton" type="button" value="" onclick="return toggleContinuous();" />
         <input class="button is-link" id="stopButton" type="button" value="Stop" onclick="return stop();" />
-        <div id="tip" style="color: #c40000;font-weight: bold;font-size: 1.2em">&nbsp;</div>
+        <div id="tip" class="bs-canvas-tip">&nbsp;</div>
     </div>
 </div>
 
@@ -39,15 +29,17 @@
 
     var ctx;
     var canvas;
-    var mouseX = 400;
-    var orgMouseX = 400;
-    var mouseY = 300;
-    var orgMouseY = 300;
     var flightArea = 150;
-    var cWidth = $(window).width() - 100;
-    var cHeight = $(window).height() - 100;
+    var cWidthAdjust = 100;
+    var cHeightAdjust = 150;
+    var cWidth = $(window).width() - cWidthAdjust;
+    var cHeight = $(window).height() - cHeightAdjust;
+    var mouseX = cWidth / 2;
+    var orgMouseX = mouseX;
+    var mouseY = cHeight / 2;
+    var orgMouseY = mouseY;
     var bifs = [];
-    var useCursor = true;
+    var useCursor = false;
     var cursorText = 'Switch to Continuous';
     var cursorTip = 'Move the cursor anywhere in the box';
     var continuousText = 'Switch to Cursor';
@@ -91,6 +83,9 @@
 
         animate();
 
+        if (false == useCursor) {
+            goContinuous();
+        }
     });
 
     function toggleContinuous()
@@ -133,8 +128,8 @@
 
     function setCanvasSize()
     {
-        cWidth = $(window).width() - 100;
-        cHeight = $(window).height() - 100;
+        cWidth = $(window).width() - cWidthAdjust;
+        cHeight = $(window).height() - cHeightAdjust;
 
         ctx.canvas.width  = cWidth;
         ctx.canvas.height = cHeight;
