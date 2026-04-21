@@ -33,6 +33,8 @@
                             <li>Invite a friend to join you in battle by sending the <span class="bs-text">Player 2</span> link to them.</li>
                             <li>When your friend has finished plotting their vessels the game status will change to <span class="bs-text">Ready</span>.</li>
                             <li>You and your friend then click <span class="bs-text">Engage</span> to play the game.</li>
+                            <li>If you don't have any friends, don't worry we've got you covered.</li>
+                            <li>To play against the machine, when you've edited your fleet just click on the <span class="bs-text">Single Player Game</span> button and away you go.</li>
                         </ol>
                     </div>
                 </div>

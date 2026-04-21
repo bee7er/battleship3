@@ -15,6 +15,8 @@
     <link href="{{env("BASE_URL", "/")}}css/site.css?v24" rel="stylesheet">
     <!-- Javascript -->
     <script type="text/javascript" src="{{env("BASE_URL", "/")}}js/smb.js?v9"></script>
+
+    <link rel="icon" type="image/x-icon" href="{{env("BASE_URL", "/")}}favicon.ico?a=1">
 </head>
 <body>
 
